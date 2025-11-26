@@ -1,6 +1,6 @@
 img{
-    max-width: 70%;
-    height: auto;
+    max-width: 80%;
+    height:auto ;
 }
 
   .feature-icon {
@@ -12,8 +12,15 @@ img{
     width: 2rem;
     height: 3rem;
 }
-
+/* 
 .maintext {
     background-image: url ="https://www.cdn.printed.com/uploads/assets/2025/05/20/ct-604-header-flat-foil.webp?1747757667";
     background-size: cover;
+    background-position: center;
+    
+} */
+.carousel- {
+    width: 100%;
+    height: auto;
+    
 }
