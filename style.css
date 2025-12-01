@@ -11,6 +11,9 @@ img{
 .img-wt-logo{
     width: 2rem;
     height: 3rem;
+    margin-right: 0rem;
+    padding-right: 0rem;
+
 }
 /* 
 .maintext {
@@ -24,3 +27,17 @@ img{
     height: auto;
     
 }
+      .navbar-nav {
+    margin-left: 0px;
+    padding: 0;
+} 
+.single-product div.product {
+    position: relative;
+    overflow: hidden;
+}
+
+  .feature-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: .75rem;
+    }
