@@ -17,7 +17,6 @@
 <body>
   <!-- Navbar -->
 
-  <!-- <nav class="navbar" style="background-color: #1873b4;" data-bs-theme="dark"> -->
 
  <nav class="navbar navbar-expand-lg bg-body-primarys" style="background-color: blueviolet;">
   <div class="container-fluid">
@@ -30,22 +29,71 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
-        <a class="nav-link" href="#">Conact Us</a>
-        <a class="nav-link" href="#">Pricing</a>
+        <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
+        <a class="nav-link" href="./contact.html">Conact Us</a>
+        <a class="nav-link" href="#">All Products</a>
  
       </div>
     </div>
   </div>
 </nav>
-
   <!-- End Navbar -->
+   <div class="container-fluid mt-3 mb-2">
+  <h3 class="table-heading">Flyers Sizes Table</h3>           
 
-  <div class="container mt-5">
-    <h2 class="mb-4">Get a Quote</h2>
+  <table class="table table-bordered table-striped-columns ">
+  <thead>
+    <tr>
+      <th> Size</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+      <th scope="col">Turnaround Time</th>
+      <th scope="col">Shipping</th>
+       <!-- <th scope="col">hh</th> -->
+    </tr> 
+    <tdr>
+      <td>A4</td>
+      <td>250</td>
+      <td>£45</td>
+      <td>3-5 Business Days</td>
+      <td>£5.99</td>
+
+    </tdr>
+    <tr>
+      <td>A5</td>
+      <td>500</td>
+      <td>£55</td>
+      <td>3-5 Business Days</td>
+      <td>£5.99</td>
+    </tr>
+    <tr>
+      <td>A6</td>
+      <td>1000</td>
+      <td>£65</td>
+      <td>3-5 Business Days</td>
+      <td>£5.99</td>
+    </tr>
+
+  </thead>
+  <tbody>
+</table>
+</div>
+
+<ul class="ul-size">
+  <li>A6 Flat Trim Size: 115 x 160mm  (111 x 150mm with bleed) </li>
+<li> A5 Flat Trim Size: 210 x 148mm  (216 x 154mm with bleed)</li>
+<li>A4 Flat Trim Size: 297 x 210mm  (303 x 216mm with bleed) </li>
+<li>A3 Flat Trim Size: 420 x 297mm  (426 x 303mm with bleed) </li>
+</ul>
+   <div class="container mt-0 mb-2">
+<img src="./img/fly1.png" alt="flying-image" class="flying-image" width="300" height="200">
+    </div>
+
+  <div class="container mt-3">
+    <h4 class="mb-4">Get a Quote</h4>
     <form  style="max-width: 300px;" >
 
-      <div class="mb-3">
+      <div class="mb-2">
         <label for="service" class="form-label">Quantity </label>
         <select class="form-select" id="service">
           <option selected>Select An Option</option>
@@ -55,7 +103,7 @@
         </select>
       </div>
 
- <div class="mb-3">
+ <div class="mb-2">
         <label for="service" class="form-label">Print </label>
         <select class="form-select" id="service">
           <option selected>Select An Option</option>
@@ -65,7 +113,7 @@
         </select>
       </div>
 
-       <div class="mb-3">
+       <div class="mb-2">
         <label for="service" class="form-label">Colored Edge </label>
         <select class="form-select" id="service">
           <option selected>Select An Option</option>
@@ -75,7 +123,30 @@
         </select>
       </div>
 
-      <div class="mb-3">
+        <div class="mb-2">
+        <label for="service" class="form-label">Printing Orientation </label>
+        <select class="form-select" id="service">
+          <option selected>Select An Option</option>
+          <option value="1">Portrait</option>
+          <option value="2">Landscape</option>
+        </select>
+      </div>
+
+          <div class="mb-2">
+        <label for="service" class="form-label">Product Size </label>
+        <select class="form-select" id="service">
+          <option selected>Select An Option</option>
+          <option value="1">A3</option>
+          <option value="2">A4</option>
+          <option value="2">A5</option>
+          <option value="2">A6</option>
+          <option value="2">A7</option>
+          <option value="2">DL</option>
+        </select>
+      </div>
+
+
+      <div class="mb-2">
         <label for="email" class="form-label">Email address</label>
         <input type="email" class="form-control" id="email" placeholder=" Enter your email">
       </div>
