@@ -28,8 +28,8 @@ img{
     
 }
 .carousel-item img {
-    width: 70%;
-    height: auto;
+    width: 50%;
+    height: 30%;
 } 
 .single-product div.product {
     position: relative;
