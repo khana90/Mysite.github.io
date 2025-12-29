@@ -63,3 +63,12 @@ table th {
     margin-top: 10px;
     margin-bottom: 20px;
 }
+
+.contact-us-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 50%;
+}
