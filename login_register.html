@@ -83,35 +83,63 @@
                   <h4 class="mt-1 mb-5 pb-1">We are The Designer Team</h4>
                 </div>
 
-                <form>
+                <form method="post" action="login.php">
                   <p><b> Login to your account</b></p>
 
                   <div data-mdb-input-init class="form-outline mb-4">
                     <input type="email" id="form2Example11" class="form-control"
-                      placeholder="Phone number or email address" />
+                      placeholder="email address" />
                     <!-- <label class="form-label" for="form2Example11">Username</label> -->
                   </div>
 
                   <div data-mdb-input-init class="form-outline mb-4">
                     <input type="password" id="form2Example22" class="form-control" 
-                    placeholder="Password" />
-                    <!-- <label class="form-label" for="form2Example22">Password</label> -->
+                    placeholder="password" />
+                      
                   </div>
+                      <button type="submit" id="form2Example22" class="form-control btn btn-primary" >Sign in</button> 
 
                   <div class="text-center pt-1 mb-5 pb-1">
                   
-                       <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-md btn-block">Sign in</button>
+                       <!-- <button type="submit" data-mdb-button-init class="btn btn-primary btn-md btn-block">Sign in</button> -->
                        <p></p>
                     <a class="text-muted" href="#!">Forgot password?</a>
                   </div>
 
                   <div class="d-flex align-items-center justify-content-center pb-4">
                     <p class="mb-0 me-2">Don't have an account?</p>
-                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger">Create new</button>
+                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger" href="register.php">Create new</button>
                   </div>
-         <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+                    </form>
 
-                </form>
+                    <form method="post" action="register.php">
+                      <p><b> Create a new account</b></p>
+                        <div data-mdb-input-init class="form-outline mb-4">
+                          <input type="text" id="form2Example11" class="form-control"
+                            placeholder="name" />
+
+                        </div>
+                        <div data-mdb-input-init class="form-outline mb-4">
+                          <input type="email" id="form2Example11" class="form-control"
+                            placeholder="email address" />
+                        </div>
+                        <div data-mdb-input-init class="form-outline mb-4">
+                          <input type="password" id="form2Example22" class="form-control" 
+                          placeholder="password" />
+                        </div>
+                        <button type="submit" id="form2Example22" class="form-control btn btn-primary" >Register</button>
+
+                      </form>
+
+
+                 <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                  <li class="ms-3"><a class="text-body-secondary" href="https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2F">
+                    <img src="./img/facebook.png" width="30" alt="facebook"/> </a></li>
+                  <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+                  <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+                </ul>
+
+                
 
               </div>
             </div>
@@ -138,29 +166,30 @@
   <div class="container-fluid  p-md-5  " style="background-color: rgb(47, 208, 84);">
     <!-- Section: Social media -->
     <section >
+ <ul class="nav col-md-4 justify-content-end">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+      <li class="nav-item"><a href="./about.html" class="nav-link px-2 text-body-secondary">About</a></li>
+    </ul>
+
       <!-- Facebook -->
-      <a
-        data-mdb-ripple-init
-        class="btn btn-link btn-floating btn-lg text-body "
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="light"
-        ><i class="fab fa-facebook-f"></i
-      ></a>
+       <li class="ms-3"><a class="text-body-secondary" href="https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2F">
+                    <img src="./img/facebook.png" width="30" alt="facebook"/> </a></li>
 
-      <!-- Twitter -->
-      <a data-mdb-ripple-init
-        class="btn btn-link btn-floating btn-lg text-body m-1"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark">
-        <i class="fab fa-twitter"></i></a>
+        <!-- Instagram -->
+               <li class="ms-3"><a class="text-body-secondary" href="https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2F">
+                    <img src="./img/facebook.png" width="30" alt="facebook"/> </a></li>
 
-         <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">mm<use xlink:href="#facebook"></use></svg></a></li>
+          <!-- Tiktok -->
+               <li class="ms-3"><a class="text-body-secondary" href="https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2F">
+                    <img src="./img/facebook.png" width="30" alt="facebook"/> </a></li>
+          
 
     </section>
-    <!-- Section: Social media -->
   </div>
+
 
   <!-- Copyright -->
   <div class="text-center p-md-3" style="background-color: rgb(255, 111, 0);">
