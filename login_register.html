@@ -15,27 +15,80 @@
 <body>
 <!-- nav bar-->
  
-<!-- <nav class="navbar navbar-expand-lg" style="background-color: rgb(154, 189, 208);">
- <div class="container-fluid"> 
-  <a class="navbar-brand" href="#"><img src="img/wt-logo-v3.png"  width="10%" height="10%">  Wise-Tech</a>
+                <!-- <form RgisterForm"> -->
 
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarNavAltMarkup" 
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  <script type="module">
+   import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+  
+    const supabaseUrl = "https://gntornzuemirlaqkrmjn.supabase.co";
+    const supabaseKey = "sb_publishable_7QQEbL5E_6hpHKfmRFpVsQ_joO-r7I9";
+    const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="index.html">Home </a>
-      <a class="nav-item nav-link" href="#">Features</a>
-      <a class="nav-item nav-link" href="#">Pricing</a>
-    
-    </div>
-  </div>
- </div>
-</nav> -->
+    // document.getElementById("registerForm").addEventListener("submit", async function (e) {
+    //   e.preventDefault();
+    //   console.log("Submit clicked");
 
-<!--  -->
+ const registerForm = document.getElementById("registerForm");
+const registerMessage = document.getElementById("registerMessage");
+
+registerForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  registerMessage.textContent = "Creating account...";
+
+  const { error } = await supabaseClient.auth.signUp({
+    email: document.getElementById("email").value.trim(),
+    password: document.getElementById("password").value,
+    options: {
+      data: { name: document.getElementById("name").value.trim() }
+    }
+  });
+
+  if (error) {
+    console.error("Sign-up failed:", error);
+    registerMessage.textContent = error.message;
+    return;
+  }
+
+  registerMessage.textContent =
+    "Sign-up succeeded. Check your email if confirmation is required.";
+});
+//  
+
+//                         <!-- Login form -->
+// <script type="module">
+//    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+  
+//     const supabaseUrl = "https://gntornzuemirlaqkrmjn.supabase.co";
+//     const supabaseKey = "sb_publishable_7QQEbL5E_6hpHKfmRFpVsQ_joO-r7I9";
+//     const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+const loginForm = document.getElementById("loginForm");
+const loginMessage = document.getElementById("loginMessage");
+
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  loginMessage.textContent = "";
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    console.error("Login failed:", error.message);
+    loginMessage.textContent = error.message;
+    return;
+  }
+
+  loginMessage.textContent = `Signed in as ${data.users.email}`;
+  // Optional: redirect after successful login
+   window.location.href = "index.html";
+});
+</script>
+
 
  <nav class="navbar navbar-expand-lg" style="background-color: rgb(43, 226, 122);">
   <div class="container-fluid">
@@ -56,16 +109,6 @@
 </nav>
 
 
-
-
-<!--  -->
-
-
-
-
-
-  
-
 <section class="h-100 gradient-form" style="background-color: #eee;">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -82,23 +125,26 @@
                     
                   <h4 class="mt-1 mb-5 pb-1">We are The Designer Team</h4>
                 </div>
+                    <!-- Login form -->
 
-                <form method="post" action="login.php">
+
+                <form id="loginForm" method="POST">
+                
                   <p><b> Login to your account</b></p>
 
                   <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="email" id="form2Example11" class="form-control"
-                      placeholder="email address" />
-                    <!-- <label class="form-label" for="form2Example11">Username</label> -->
+                    <input type="email" id="loginEmail" name="email" class="form-control"
+                      placeholder="Email address" autocomplete="username" />
+                    
                   </div>
 
                   <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="password" id="form2Example22" class="form-control" 
-                    placeholder="password" />
+                    <input type="password" id="loginPassword" name="password" class="form-control" 
+                    placeholder="password" autocomplete="current-password" />
                       
                   </div>
-                      <button type="submit" id="form2Example22" class="form-control btn btn-primary" >Sign in</button> 
-
+                      <button type="submit" class="form-control btn btn-primary" >Sign in</button> 
+        <p id="loginMessage" role="status"></p>
                   <div class="text-center pt-1 mb-5 pb-1">
                   
                        <!-- <button type="submit" data-mdb-button-init class="btn btn-primary btn-md btn-block">Sign in</button> -->
@@ -112,23 +158,23 @@
                   </div>
                     </form>
 
-                    <form method="post" action="register.php">
-                      <p><b> Create a new account</b></p>
-                        <div data-mdb-input-init class="form-outline mb-4">
-                          <input type="text" id="form2Example11" class="form-control"
-                            placeholder="name" />
+                    <!-- Registeration form -->
+                     
+                          <form id="registerForm" method="POST">
+                            <p><b> Create a new account</b></p>
+                            <div data-mdb-input-init class="form-outline mb-4">
+                              <input type="text" id="name" placeholder="Name" required class="form-control" autocomplete="name"/>
+                            </div>
 
+                        <div data-mdb-input-init class="form-outline mb-4">
+                          <input type="email" id="email" placeholder="Email" required class="form-control" autocomplete="username"/>
+                            
                         </div>
                         <div data-mdb-input-init class="form-outline mb-4">
-                          <input type="email" id="form2Example11" class="form-control"
-                            placeholder="email address" />
-                        </div>
-                        <div data-mdb-input-init class="form-outline mb-4">
-                          <input type="password" id="form2Example22" class="form-control" 
-                          placeholder="password" />
+                          <input type="password" id="password" placeholder="Password" required class="form-control" autocomplete="new-password"/>
                         </div>
                         <button type="submit" id="form2Example22" class="form-control btn btn-primary" >Register</button>
-
+ <p id="signupMessage" role="status"></p>
                       </form>
 
 
