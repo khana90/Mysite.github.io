@@ -10,84 +10,11 @@
   <link rel="stylesheet" href="style.css">
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
+<script type="module" src="script.js"></script>
 
 <body>
 <!-- nav bar-->
  
-                <!-- <form RgisterForm"> -->
-
-  <script type="module">
-   import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-  
-    const supabaseUrl = "https://gntornzuemirlaqkrmjn.supabase.co";
-    const supabaseKey = "sb_publishable_7QQEbL5E_6hpHKfmRFpVsQ_joO-r7I9";
-    const supabaseClient = createClient(supabaseUrl, supabaseKey);
-
-    // document.getElementById("registerForm").addEventListener("submit", async function (e) {
-    //   e.preventDefault();
-    //   console.log("Submit clicked");
-
- const registerForm = document.getElementById("registerForm");
-const registerMessage = document.getElementById("registerMessage");
-
-registerForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  registerMessage.textContent = "Creating account...";
-
-  const { error } = await supabaseClient.auth.signUp({
-    email: document.getElementById("email").value.trim(),
-    password: document.getElementById("password").value,
-    options: {
-      data: { name: document.getElementById("name").value.trim() }
-    }
-  });
-
-  if (error) {
-    console.error("Sign-up failed:", error);
-    registerMessage.textContent = error.message;
-    return;
-  }
-
-  registerMessage.textContent =
-    "Sign-up succeeded. Check your email if confirmation is required.";
-});
-//  
-
-//                         <!-- Login form -->
-// <script type="module">
-//    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-  
-//     const supabaseUrl = "https://gntornzuemirlaqkrmjn.supabase.co";
-//     const supabaseKey = "sb_publishable_7QQEbL5E_6hpHKfmRFpVsQ_joO-r7I9";
-//     const supabaseClient = createClient(supabaseUrl, supabaseKey);
-
-const loginForm = document.getElementById("loginForm");
-const loginMessage = document.getElementById("loginMessage");
-
-loginForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  loginMessage.textContent = "";
-
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if (error) {
-    console.error("Login failed:", error.message);
-    loginMessage.textContent = error.message;
-    return;
-  }
-
-  loginMessage.textContent = `Signed in as ${data.users.email}`;
-  // Optional: redirect after successful login
-   window.location.href = "index.html";
-});
-</script>
 
 
  <nav class="navbar navbar-expand-lg" style="background-color: rgb(43, 226, 122);">
@@ -144,7 +71,7 @@ loginForm.addEventListener("submit", async (event) => {
                       
                   </div>
                       <button type="submit" class="form-control btn btn-primary" >Sign in</button> 
-        <p id="loginMessage" role="status"></p>
+            <p   id="loginMessage" role="status"></p>
                   <div class="text-center pt-1 mb-5 pb-1">
                   
                        <!-- <button type="submit" data-mdb-button-init class="btn btn-primary btn-md btn-block">Sign in</button> -->

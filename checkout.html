@@ -1,0 +1,32 @@
+<!DOCTYPE html> 
+
+
+
+
+
+
+
+
+<div id="qouteDetails">
+    <script>
+  const details = document.getElementById("quoteDetails");
+  const quote = JSON.parse(localStorage.getItem("quoteCheckout") || "null");
+
+  if (!quote) {
+    details.textContent = "No quote details found. Please submit the quote form again.";
+  } else {
+    for (const [label, value] of Object.entries({
+      Email: quote.email,
+      Quantity: quote.quantity,
+      Print: quote.print_sides === "both_sides" ? "Both sides" : "Front only",
+      "Colored edge": quote.colored_edge ? "Yes (£40)" : "No",
+      Orientation: quote.orientation,
+      "Product size": quote.product_size
+    })) {
+      const row = document.createElement("p");
+      row.textContent = `${label}: ${value}`;
+      details.appendChild(row);
+    }
+  }
+</script>
+</div>

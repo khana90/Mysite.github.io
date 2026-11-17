@@ -86,10 +86,16 @@
 <img src="./img/WisTeck_flyer.png" alt="flying-image" class="flying-image" width="200" height="200">
     </div>
 
-  <div class="container mt-3">
-    <h4 class="mb-4">Get a Quote</h4>
-    <form  style="max-width: 300px;" >
+     <h4 div style="text-align: center;">Get a Quote</h4> 
 
+  <div class="container mt-3">
+
+    <form id="quoteForm" style="max-width: 200px;" >
+    
+  <div class="mb-2">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="quoteEmail" placeholder=" Enter your email">
+      </div>
       <div class="mb-2">
         <label for="service" class="form-label">Quantity </label>
         <select class="form-select" id="service">
@@ -115,8 +121,8 @@
         <select class="form-select" id="service">
           <option selected>Select An Option</option>
           <option value="1">No</option>
-          <option value="2">Yes (£40)</option>
-          <option value="3">1000</option>
+          <option value="2">Yes (£40-extra)</option>
+       
         </select>
       </div>
 
@@ -142,19 +148,23 @@
         </select>
       </div>
 
-
-      <div class="mb-2">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" placeholder=" Enter your email">
-      </div>
-      <div class="mb-3">
+      <!-- <div class="mb-3">
         <label for="details" class="form-label">Project Details</label>
         <textarea class="form-control" id="details" rows="4" placeholder="Describe your project"></textarea> 
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button> 
-    </form>
-  </div>
+      </div> -->
+     
+    
+       <p id="quoteMessage" role="status"></p> 
 
+    </form>
+      <div> 
+        <button type="submit" class="btn btn-primary">Submit qoute</button> 
+       <button type="submit" class="btn btn-secondary">Checkout </button>
+      </div>
+  </div>
+ 
+
+ 
 
 
 
