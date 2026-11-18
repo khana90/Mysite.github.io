@@ -86,88 +86,113 @@
 <img src="./img/WisTeck_flyer.png" alt="flying-image" class="flying-image" width="200" height="200">
     </div>
 
-     <h4 div style="text-align: center;">Get a Quote</h4> 
+    <!-- Quote Form -->
 
-  <div class="container mt-3">
+     <h4 class="text-center">Get a Quote</h4>
 
-    <form id="quoteForm" style="max-width: 200px;" >
-    
-  <div class="mb-2">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="quoteEmail" placeholder=" Enter your email">
+<div class="container mb-3 ">
+  <div class="row g-5 align-items-start">
+
+    <!-- Quote form: left column -->
+    <div class="col-10 col-lg-5">
+      <form id="quoteForm">
+        <div class="mb-3">
+          <label for="quoteEmail" class="form-label">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="quoteEmail"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="mb-3">
+          <label for="quantity" class="form-label">Quantity</label>
+          <select class="form-select" id="quantity" required>
+            <option value="" selected disabled>Select an option</option>
+            <option value="250">250</option>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="printSides" class="form-label">Print</label>
+          <select class="form-select" id="printSides" required>
+            <option value="" selected disabled>Select an option</option>
+            <option value="both_sides">Both sides</option>
+            <option value="front_only">Front only</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="coloredEdge" class="form-label">Colored edge</label>
+          <select class="form-select" id="coloredEdge" required>
+            <option value="" selected disabled>Select an option</option>
+            <option value="no">No</option>
+            <option value="yes">Yes (£40 extra)</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="orientation" class="form-label">Printing orientation</label>
+          <select class="form-select" id="orientation" required>
+            <option value="" selected disabled>Select an option</option>
+            <option value="portrait">Portrait</option>
+            <option value="landscape">Landscape</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="productSize" class="form-label">Product size</label>
+          <select class="form-select" id="productSize" required>
+            <option value="" selected disabled>Select an option</option>
+            <option value="A3">A3</option>
+            <option value="A4">A4</option>
+            <option value="A5">A5</option>
+            <option value="A6">A6</option>
+            <option value="A7">A7</option>
+            <option value="DL">DL</option>
+          </select>
+        </div>
+
+        <p id="quoteMessage" role="status"></p>
+
+        <button type="submit" class="btn btn-primary">Submit quote</button>
+        <button type="button" id="checkoutButton" class="btn btn-secondary">
+          Checkout
+        </button>
+      </form>
+    </div>
+
+    <!-- Live summary: right column -->
+    <aside class="col-12 col-lg-6" aria-live="polite">
+      <div class="card mt-4">
+        <div class="card-body">
+          <h2 class="h4 card-title">Your selections</h2>
+
+          <table class="table table-sm mb-3">
+            <tbody>
+              <tr><th scope="row">Email</th><td id="summaryEmail">—</td></tr>
+              <tr><th scope="row">Quantity</th><td id="summaryQuantity">—</td></tr>
+              <tr><th scope="row">Print</th><td id="summaryPrint">—</td></tr>
+              <tr><th scope="row">Colored edge</th><td id="summaryEdge">—</td></tr>
+              <tr><th scope="row">Orientation</th><td id="summaryOrientation">—</td></tr>
+              <tr><th scope="row">Product size</th><td id="summarySize">—</td></tr>
+              <tr><th scope="row">Printing</th><td id="summaryBasePrice">—</td></tr>
+          <tr><th scope="row">Colored edge</th><td id="summaryEdgePrice">—</td></tr>
+        <tr><th scope="row">Shipping</th><td id="summaryShipping">—</td></tr>
+            <tr><th scope="row">Total</th><td id="summaryTotal">—</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div class="mb-2">
-        <label for="service" class="form-label">Quantity </label>
-        <select class="form-select" id="service">
-          <option selected>Select An Option</option>
-          <option value="1">250</option>
-          <option value="2">500</option>
-          <option value="3">1000</option>
-        </select>
-      </div>
+    </aside>
 
- <div class="mb-2">
-        <label for="service" class="form-label">Print </label>
-        <select class="form-select" id="service">
-          <option selected>Select An Option</option>
-          <option value="1">Both Side</option>
-          <option value="2">Front Only</option>
-         
-        </select>
-      </div>
-
-       <div class="mb-2">
-        <label for="service" class="form-label">Colored Edge </label>
-        <select class="form-select" id="service">
-          <option selected>Select An Option</option>
-          <option value="1">No</option>
-          <option value="2">Yes (£40-extra)</option>
-       
-        </select>
-      </div>
-
-        <div class="mb-2">
-        <label for="service" class="form-label">Printing Orientation </label>
-        <select class="form-select" id="service">
-          <option selected>Select An Option</option>
-          <option value="1">Portrait</option>
-          <option value="2">Landscape</option>
-        </select>
-      </div>
-
-          <div class="mb-2">
-        <label for="service" class="form-label">Product Size </label>
-        <select class="form-select" id="service">
-          <option selected>Select An Option</option>
-          <option value="1">A3</option>
-          <option value="2">A4</option>
-          <option value="2">A5</option>
-          <option value="2">A6</option>
-          <option value="2">A7</option>
-          <option value="2">DL</option>
-        </select>
-      </div>
-
-      <!-- <div class="mb-3">
-        <label for="details" class="form-label">Project Details</label>
-        <textarea class="form-control" id="details" rows="4" placeholder="Describe your project"></textarea> 
-      </div> -->
-     
-    
-       <p id="quoteMessage" role="status"></p> 
-
-    </form>
-      <div> 
-        <button type="submit" class="btn btn-primary">Submit qoute</button> 
-       <button type="submit" class="btn btn-secondary">Checkout </button>
-      </div>
   </div>
- 
-
- 
-
-
+</div>
 
 </body>
-
 </html>
