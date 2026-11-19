@@ -1,32 +1,18 @@
 <!DOCTYPE html> 
 
 
+<div id="checkoutQuote"></div>
 
 
-
-
-
-
-<div id="qouteDetails">
-    <script>
-  const details = document.getElementById("quoteDetails");
-  const quote = JSON.parse(localStorage.getItem("quoteCheckout") || "null");
+<script>
+  const quote = JSON.parse(sessionStorage.getItem("quoteCheckout") || "null");
+  const output = document.getElementById("checkoutQuote");
 
   if (!quote) {
-    details.textContent = "No quote details found. Please submit the quote form again.";
+    output.textContent = "No saved quote found. Please submit the quote form first.";
   } else {
-    for (const [label, value] of Object.entries({
-      Email: quote.email,
-      Quantity: quote.quantity,
-      Print: quote.print_sides === "both_sides" ? "Both sides" : "Front only",
-      "Colored edge": quote.colored_edge ? "Yes (£40)" : "No",
-      Orientation: quote.orientation,
-      "Product size": quote.product_size
-    })) {
-      const row = document.createElement("p");
-      row.textContent = `${label}: ${value}`;
-      details.appendChild(row);
-    }
+    output.textContent =
+      `${quote.quantity} copies · ${quote.product_size} · ${quote.email}`;
   }
 </script>
-</div>
+

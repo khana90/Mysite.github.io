@@ -1,79 +1,72 @@
 
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
- // <script type="module">
-   import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-  
-    const supabaseUrl = "https://gntornzuemirlaqkrmjn.supabase.co";
-    const supabaseKey = "sb_publishable_7QQEbL5E_6hpHKfmRFpVsQ_joO-r7I9";
-    const supabaseClient = createClient(supabaseUrl, supabaseKey);
-
+const supabaseClient = createClient(
+  "https://gntornzuemirlaqkrmjn.supabase.co",
+  "sb_publishable_7QQEbL5E_6hpHKfmRFpVsQ_joO-r7I9"
+);
 
 const registerForm = document.getElementById("registerForm");
-const signupMessage = document.getElementById("signupMessage");
-const loginForm = document.getElementById("loginForm");
-const loginMessage = document.getElementById("loginMessage");
 
-if (!registerForm || !signupMessage || !loginForm || !loginMessage) {
-  throw new Error("A form or message element is missing. Check the HTML IDs.");
-}
+if (registerForm) {
+  const signupMessage = document.getElementById("signupMessage");
 
-registerForm.addEventListener("submit", async (event) => {
-  event.preventDefault("kkk");
-  signupMessage.textContent = "Creating account...";
+  registerForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-  const { error } = await supabaseClient.auth.signUp({
-    email: document.getElementById("email").value.trim(),
-    password: document.getElementById("password").value,
-    options: {
-      data: { name: document.getElementById("name").value.trim() }
+    if (signupMessage) signupMessage.textContent = "Creating account...";
+
+    const { error } = await supabaseClient.auth.signUp({
+      email: document.getElementById("email").value.trim(),
+      password: document.getElementById("password").value,
+      options: {
+        data: { name: document.getElementById("name").value.trim() }
+      }
+    });
+
+    if (error) {
+      console.error("Sign-up failed:", error.message);
+      if (signupMessage) signupMessage.textContent = error.message;
+      return;
+    }
+
+    if (signupMessage) {
+      signupMessage.textContent =
+        "Sign-up succeeded. Confirm your email address.";
     }
   });
+}
 
-  if (error) {
-    console.error("Sign-up failed:", error.message);
-    signupMessage.textContent = error.message;
-    return;
-  }
+const loginForm = document.getElementById("loginForm");
 
-  signupMessage.textContent =
-    "Sign-up succeeded. Check your email if confirmation is required.";
-});
+if (loginForm) {
+  const loginMessage = document.getElementById("loginMessage");
 
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-//                         <!-- Login form -->
-// <script type="module">
-//    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-  
-//     const supabaseUrl = "https://gntornzuemirlaqkrmjn.supabase.co";
-//     const supabaseKey = "sb_publishable_7QQEbL5E_6hpHKfmRFpVsQ_joO-r7I9";
-//     const supabaseClient = createClient(supabaseUrl, supabaseKey);
+    if (loginMessage) loginMessage.textContent = "Signing in...";
 
-// const loginForm = document.getElementById("loginForm");
-// const loginMessage = document.getElementById("loginMessage");
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email: document.getElementById("loginEmail").value.trim(),
+      password: document.getElementById("loginPassword").value
+    });
 
-loginForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  loginMessage.textContent = "Signing in...";
+    if (error) {
+      console.error("Login failed:", error.message);
+      if (loginMessage) loginMessage.textContent = error.message;
+      return;
+    }
 
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: document.getElementById("loginEmail").value.trim(),
-    password: document.getElementById("loginPassword").value
+    window.location.href = "index.html";
   });
-
-  if (error) {
-    console.error("Login failed:", error.message);
-    loginMessage.textContent = error.message;
-    return;
-  }
-
-  loginMessage.textContent = `Signed in as ${data.user.email}.`;
-  window.location.href = "index.html";
-});
+}
 
 
 
 
-// Quote form submission
+
+// Quote form submission- flyer
 const quoteForm = document.getElementById("quoteForm");
 const quoteMessage = document.getElementById("quoteMessage");
 const checkoutButton = document.getElementById("checkoutButton");
@@ -157,7 +150,7 @@ async function loadPrices() {
 
   const { data, error } = await supabaseClient
     .from("quote_prices")
-    .select("product_size, quantity, base_price_gbp, edge_surcharge_gbp, shipping_gbp");
+    .select("product_size, quantity, base_price, edge_surcharge, shipping");
 
   if (error) {
     console.error("Could not load quote prices:", error);
@@ -167,9 +160,9 @@ async function loadPrices() {
 
   for (const row of data) {
     prices.set(`${row.product_size}:${row.quantity}`, {
-      base: Number(row.base_price_gbp),
-      edgeSurcharge: Number(row.edge_surcharge_gbp),
-      shipping: Number(row.shipping_gbp)
+      base: Number(row.base_price),
+      edgeSurcharge: Number(row.edge_surcharge),
+      shipping: Number(row.shipping)
     });
   }
 
