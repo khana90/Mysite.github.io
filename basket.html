@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wize Tech</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" 
+       rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+  <style>
+  .feature-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: .75rem;
+    }
+  </style>
+</head>
+
+<body class="bg-primary-subtle">
+  <!-- Navbar -->
+
+  <!-- End Navbar -->
+
+<main class="container py-5 ">
+  <h1 class="h2">Your basket</h1>
+  <p id="basketMessage" role="status">Loading basket…</p>
+
+  <div class="table-responsive">
+    <table class="table bordered table-striped table-hover align-middle">
+      <thead>
+        <tr>
+          <th>Quantity</th><th>Print</th><th>Colored edge</th>
+          <th>Orientation</th><th>Size</th><th>Price</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="basketItems"></tbody>
+      <tfoot>
+      <tr class="table-group-divider fw-bold">
+        <th colspan="5" class="text-end">Grand total</th>
+        <td id="basketGrandTotal">£0.00</td>
+        <td></td>
+      </tr>
+    </tfoot>
+    </table>
+  </div>
+
+  <a id="checkoutLink" class="btn btn-primary disabled"
+     href="checkout.html" aria-disabled="true">Continue to checkout</a>
+     <a href="flyer.html" class="btn btn-secondary">Back to products</a>
+     <a href="index.html" class="btn btn-secondary">Back to home</a>
+     <a href="login_register.html" class="btn btn-secondary">Back to login</a>
+     
+</main>
+  
+
+
+
+<!-- 
+<div class="table-responsive">
+  <table class="table table-striped table-hover align-middle">
+    <thead>
+      <tr>
+        <th scope="col">Quantity</th>
+        <th scope="col">Print</th>
+        <th scope="col">Colored edge</th>
+        <th scope="col">Orientation</th>
+        <th scope="col">Size</th>
+        <th scope="col">Price</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+
+    <tbody id="basketItems"></tbody>
+
+    <tfoot>
+      <tr class="table-group-divider fw-bold">
+        <th colspan="5" class="text-end">Grand total</th>
+        <td id="basketGrandTotal">£0.00</td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+</main> -->
+
+<script type="module" src="./script.js"></script>
+
+</body>
+</html>

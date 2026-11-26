@@ -5,6 +5,8 @@ const supabaseClient = createClient(
   "https://gntornzuemirlaqkrmjn.supabase.co",
   "sb_publishable_7QQEbL5E_6hpHKfmRFpVsQ_joO-r7I9"
 );
+// At the top of script.js shows error
+console.log("script.js loaded", location.pathname);
 
 const registerForm = document.getElementById("registerForm");
 
@@ -98,9 +100,9 @@ function updateQuoteSummary() {
   for (const [id, value] of Object.entries(values)) {
     const fieldId = id === "summaryEmail" ? "quoteEmail" :
       id === "summaryQuantity" ? "quantity" :
-      id === "summaryPrint" ? "printSides" :
-      id === "summaryEdge" ? "coloredEdge" :
-      id === "summaryOrientation" ? "orientation" : "productSize";
+        id === "summaryPrint" ? "printSides" :
+          id === "summaryEdge" ? "coloredEdge" :
+            id === "summaryOrientation" ? "orientation" : "productSize";
 
     document.getElementById(id).textContent =
       document.getElementById(fieldId).value ? value : "—";
@@ -110,6 +112,11 @@ function updateQuoteSummary() {
   const quantity = Number(document.getElementById("quantity").value);
   const price = prices.get(`${size}:${quantity}`);
 
+  console.log("Looking up price:", {
+    size,
+    quantity,
+    keys: [...prices.keys()]
+  });
   if (!price) {
     showPrice("summaryBasePrice", null);
     showPrice("summaryEdgePrice", null);
@@ -133,18 +140,11 @@ function updateQuoteSummary() {
   return { base: price.base, edge: edgePrice, shipping: price.shipping, total };
 }
 
-function invalidateSavedQuote() {
-  updateQuoteSummary();
 
-  if (quoteSaved) {
-    quoteSaved = false;
-    checkoutButton.disabled = true;
-    sessionStorage.removeItem("quoteCheckout");
-    quoteMessage.textContent = "Selections changed. Submit the quote again before checkout.";
-  }
-}
-
+// Load prices from Supabase
 async function loadPrices() {
+  console.log("loadPrices called");
+
   submitButton.disabled = true;
   checkoutButton.disabled = true;
 
@@ -157,68 +157,260 @@ async function loadPrices() {
     quoteMessage.textContent = "Could not load prices. Please refresh and try again.";
     return;
   }
+  prices.clear();
+
+  console.log("Price rows from Supabase:", data); // Log the data received from Supabase
 
   for (const row of data) {
-    prices.set(`${row.product_size}:${row.quantity}`, {
+    prices.set(`${String(row.product_size).trim().toUpperCase()}:${Number(row.quantity)}`, {
       base: Number(row.base_price),
       edgeSurcharge: Number(row.edge_surcharge),
       shipping: Number(row.shipping)
     });
   }
+  console.log("Loaded prices keys:", [...prices.keys()]);
 
   submitButton.disabled = false;
   updateQuoteSummary();
 }
 
-quoteForm.addEventListener("input", invalidateSavedQuote);
-quoteForm.addEventListener("change", invalidateSavedQuote);
 
-quoteForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
 
-  const quote = {
-    id: crypto.randomUUID(),
-    email: document.getElementById("quoteEmail").value.trim(),
-    quantity: Number(document.getElementById("quantity").value),
-    print_sides: document.getElementById("printSides").value,
-    colored_edge: document.getElementById("coloredEdge").value === "yes",
-    orientation: document.getElementById("orientation").value,
-    product_size: document.getElementById("productSize").value
-  };
 
-  submitButton.disabled = true;
-  quoteMessage.textContent = "Saving your quote...";
+// Invalidate saved quote if any selection changes
+function invalidateSavedQuote() {
+  updateQuoteSummary();
 
-  try {
-    const { error } = await supabaseClient
-      .from("quote_requests")
-      .insert(quote);
+  if (quoteSaved) {
+    quoteSaved = false;
+    checkoutButton.disabled = true;
+    sessionStorage.removeItem("quoteCheckout");
+    quoteMessage.textContent = "Selections changed. Submit the quote again before checkout.";
+  }
+}
 
-    if (error) {
-      console.error("Quote save failed:", error);
-      quoteMessage.textContent = `Could not save quote: ${error.message}`;
+
+if (quoteForm) {
+  quoteForm.addEventListener("input", invalidateSavedQuote);
+  quoteForm.addEventListener("change", invalidateSavedQuote);
+
+  quoteForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const pricing = updateQuoteSummary();
+    if (!pricing) {
+      quoteMessage.textContent = "Select a product size and quantity first.";
       return;
     }
 
-    sessionStorage.setItem("quoteCheckout", JSON.stringify(quote));
-    quoteSaved = true;
-    checkoutButton.disabled = false;
-    quoteMessage.textContent = "Quote saved. You can continue to checkout.";
-  } catch (error) {
-    console.error("Quote request failed:", error);
-    quoteMessage.textContent = "Could not reach the server. Please try again.";
-  } finally {
-    submitButton.disabled = false;
+
+
+    submitButton.disabled = true;
+    quoteMessage.textContent = "Checking sign-in...";
+
+    try {
+      const { data: { user }, error: authError } =
+        await supabaseClient.auth.getUser();
+
+      if (authError) throw authError;
+
+      if (!user) {
+        quoteMessage.textContent =
+          "Please sign in or register before submitting your quote.";
+        return;
+      }
+
+      const quote = {
+        id: crypto.randomUUID(),
+        user_id: user.id,
+        email: user.email,
+        quantity: Number(document.getElementById("quantity").value),
+        print_sides: document.getElementById("printSides").value,
+        colored_edge: document.getElementById("coloredEdge").value === "yes",
+        orientation: document.getElementById("orientation").value,
+        product_size: document.getElementById("productSize").value
+      };
+
+      quoteMessage.textContent = "Adding quote to your basket...";
+
+      const { data, error } = await supabaseClient
+        .from("quote_requests")
+        .insert(quote)
+        .select("id")
+        .single();
+
+      if (error) throw error;
+
+      sessionStorage.setItem("quoteCheckout", JSON.stringify({
+        ...quote,
+        quote_request_id: data.id,
+        base_price_gbp: pricing.base,
+        edge_surcharge_gbp: pricing.edge,
+        shipping_gbp: pricing.shipping,
+        total_price_gbp: pricing.total
+      }));
+
+      quoteSaved = true;
+      checkoutButton.disabled = false;
+      quoteMessage.textContent = "Quote added to your basket.";
+      await updateBasketCount();
+    } catch (error) {
+      console.error("Could not save quote:", error);
+      quoteMessage.textContent = `Could not save quote: ${error.message}`;
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+
+    checkoutButton.addEventListener("click", () => {
+    if (quoteSaved) window.location.href = "basket.html";
+      });
+
+  loadPrices();
+}
+//basket
+
+async function updateBasketCount() {
+  const badge = document.getElementById("basketCount");
+  if (!badge) return;
+
+  const { data: { user }, error: authError } =
+    await supabaseClient.auth.getUser();
+
+  if (authError) {
+    console.error("Could not check signed-in user:", authError);
+    return;
   }
-});
 
-checkoutButton.addEventListener("click", () => {
-  if (quoteSaved) window.location.href = "checkout.html";
-});
+  if (!user) {
+    badge.textContent = "0";
+    return;
+  }
 
-loadPrices();
+  const { count, error } = await supabaseClient
+    .from("quote_requests")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", user.id)
+    .eq("status", "basket");
+
+  if (error) {
+    console.error("Could not load basket count:", error);
+    return;
+  }
+
+  badge.textContent = String(count ?? 0);
+}
+
+updateBasketCount();
 
 
+// basket js
+async function loadBasket() {
+  const tbody = document.getElementById("basketItems");
+  if (!tbody) return;
+
+  const message = document.getElementById("basketMessage");
+  const checkoutLink = document.getElementById("checkoutLink");
+  const grandTotalCell = document.getElementById("basketGrandTotal");
+  const money = new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP"
+  });
+
+  checkoutLink.classList.add("disabled");
+  checkoutLink.setAttribute("aria-disabled", "true");
+  grandTotalCell.textContent = money.format(0);
+  message.textContent = "Loading your basket...";
 
 
-//checkout page script
+  try {
+    const { data: { user }, error: authError } =
+      await supabaseClient.auth.getUser();
+
+    if (authError) throw authError;
+
+    if (!user) {
+      message.textContent = "Sign in to see your basket.";
+      return;
+    }
+
+    const { data: quotes, error } = await supabaseClient
+      .from("quote_requests")
+      .select("id, quantity, print_sides, colored_edge, orientation, product_size, total_price_gbp")
+      .eq("user_id", user.id)
+      .eq("status", "basket")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    tbody.replaceChildren();
+
+    if (!quotes.length) {
+      message.textContent = "Your basket is empty. Add a quote to get started.";
+      return;
+    }
+
+    let total = 0;
+
+    for (const quote of quotes) {
+      const row = document.createElement("tr");
+      const price = Number(quote.total_price_gbp) || 0;
+      total += price;
+
+      const values = [
+        quote.quantity,
+        quote.print_sides === "both_sides" ? "Both sides" : "Front only",
+        quote.colored_edge ? "Yes" : "No",
+        quote.orientation,
+        quote.product_size,
+        money.format(price)
+      ];
+
+      for (const value of values) {
+        const cell = document.createElement("td");
+        cell.textContent = String(value);
+        row.appendChild(cell);
+      }
+
+      const actionCell = document.createElement("td");
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.className = "btn btn-sm btn-outline-danger";
+      removeButton.textContent = "Remove";
+
+      removeButton.addEventListener("click", async () => {
+        removeButton.disabled = true;
+
+        const { error: deleteError } = await supabaseClient
+          .from("quote_requests")
+          .delete()
+          .eq("id", quote.id)
+          .eq("user_id", user.id);
+
+        if (deleteError) {
+          console.error("Could not remove quote:", deleteError);
+          message.textContent = `Could not remove item: ${deleteError.message}`;
+          removeButton.disabled = false;
+          return;
+        }
+
+        await loadBasket();
+        await updateBasketCount();
+      });
+
+      actionCell.appendChild(removeButton);
+      row.appendChild(actionCell);
+      tbody.appendChild(row);
+    }
+
+    grandTotalCell.textContent = money.format(total);
+    message.textContent = `${quotes.length} item${quotes.length === 1 ? "" : "s"} in your basket.`;
+    checkoutLink.classList.remove("disabled");
+    checkoutLink.setAttribute("aria-disabled", "false");
+  } catch (error) {
+    console.error("Could not load basket:", error);
+    message.textContent = "Could not load your basket. Check the Console for details.";
+  }
+}
+
+loadBasket();
